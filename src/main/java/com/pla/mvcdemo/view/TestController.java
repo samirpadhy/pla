@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 1.0
  */
 @Controller
-@RequestMapping(name = "/hello")
+@RequestMapping("/hello")
 public class TestController {
 
-    @RequestMapping(name = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
         return "test/demo";
