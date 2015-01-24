@@ -47,6 +47,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         LoggedInUserHolder.clearLoggedInUser();
         final String username = request.getParameter("username");
         LoggedInUserHolder.setUserName(username);
+        super.setDefaultTargetUrl("/demo");
         super.onAuthenticationSuccess(request, response, auth);
     }
 

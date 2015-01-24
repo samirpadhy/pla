@@ -9,6 +9,7 @@ package org.nthdimenzion.security.service;
 import org.nthdimenzion.common.service.JpaRepositoryFactory;
 import org.nthdimenzion.security.domain.SystemUser;
 import org.nthdimenzion.security.domain.UserLogin;
+import org.nthdimenzion.security.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -39,16 +40,17 @@ public class UserService implements UserDetailsService, IAuthentication {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private JpaRepository<UserLogin, String> userLoginRepository;
+    private UserLoginRepository userLoginRepository;
 
     UserService() {
     }
 
-    public UserService(UserDetailsService userValidationService, ShaPasswordEncoder passwordEncoder, SystemWideSaltSource saltSource) {
+    @Autowired
+    public UserService(UserDetailsService userValidationService, ShaPasswordEncoder passwordEncoder, SystemWideSaltSource saltSource,UserLoginRepository userLoginRepository) {
         this.userDetailsService = userValidationService;
         this.passwordEncoder = passwordEncoder;
         this.saltSource = saltSource;
-        this.userLoginRepository = new SimpleJpaRepository<UserLogin, String>(UserLogin.class, entityManager);
+        this.userLoginRepository = userLoginRepository;
     }
 
 

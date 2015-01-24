@@ -23,9 +23,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 /**
@@ -43,17 +46,38 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JdbcDaoImpl userValidationService;
+
+    @Autowired
+    private ShaPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SystemWideSaltSource saltSource;
+
+    @Autowired
+    private DaoAuthenticationProvider daoAuthenticationProvider;
+
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated()
                 .and().formLogin().usernameParameter("username").passwordParameter("password")
-                .successHandler(authenticationSuccessHandler()).failureHandler(authenticationFailureHandler())
+                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
                 .failureUrl("/login?error=1").loginPage("/login").permitAll().and().logout().permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        auth.authenticationProvider(daoAuthenticationProvider);
     }
 
 
@@ -70,12 +94,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new AuthenticationFailureHandler();
-    }
-
-    @Bean
-    public UserService userService() {
-        UserService userDetailService = new UserService(userValidationService(), passwordEncoder(), saltSource());
-        return userDetailService;
     }
 
     @Bean
@@ -104,21 +122,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setSaltSource(saltSource());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setSaltSource(saltSource);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
 
-    private static final String GROUP_AUTHORITIES_BY_USERNAME_QUERY = "select sg.id group_id,sg.name group_name,sp.PERMISSION_ID permission\n" +
+    private static final String GROUP_AUTHORITIES_BY_USERNAME_QUERY = "SELECT sg.id group_id,sg.name group_name,sp.PERMISSION_ID permission" +
             " from USER_LOGIN ul,SECURITY_GROUP sg,SECURITY_PERMISSION sp,\n" +
-            " USERLOGIN_SECURITY_GROUPS ulsg,\n" +
-            " SECURITYGROUP_SECURITY_PERMISSIONS sgsp\n" +
-            " where ul.username = ?\n" +
-            " and ul.id = ulsg.USERLOGIN\n" +
-            " and ulsg.SECURITYGROUPS = sg.id\n" +
-            " and sgsp.SECURITYGROUP = sg.id\n" +
-            " and sgsp.SECURITYPERMISSIONS = sp.id";
+            " USER_LOGIN_SECURITY_GROUPS ulsg,SECURITY_GROUP_SECURITY_PERMISSIONS sgsp\n" +
+            " where ul.username =? and ul.id = ulsg.USER_LOGIN_ID and ulsg.SECURITY_GROUPS_ID = sg.id and sgsp.SECURITY_GROUP_ID = sg.id" +
+            " and sgsp.SECURITY_PERMISSIONS_ID = sp.id";
 
     private static final String USERS_BY_USERNAME_QUERY = "select ul.username,ul.password,ul.is_enabled from USER_LOGIN ul where ul.username = ?";
 }
