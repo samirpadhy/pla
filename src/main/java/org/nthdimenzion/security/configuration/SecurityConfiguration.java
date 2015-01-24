@@ -44,17 +44,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated();
-        http.formLogin().usernameParameter("username").passwordParameter("password").successHandler(authenticationSuccessHandler()).failureHandler(authenticationFailureHandler())
-                .failureUrl("/login?error").defaultSuccessUrl("/").loginPage("/login").permitAll().and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll()
-                .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint());
+        http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated()
+                .and().formLogin().usernameParameter("username").passwordParameter("password")
+                .successHandler(authenticationSuccessHandler()).failureHandler(authenticationFailureHandler())
+                .failureUrl("/login?error=1").loginPage("/login").permitAll().and().logout().permitAll();
     }
 
     @Override
