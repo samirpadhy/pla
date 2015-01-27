@@ -6,13 +6,9 @@
 
 package org.nthdimenzion.security.service;
 
-import org.nthdimenzion.common.service.JpaRepositoryFactory;
 import org.nthdimenzion.security.domain.SystemUser;
-import org.nthdimenzion.security.domain.UserLogin;
 import org.nthdimenzion.security.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.security.authentication.dao.SystemWideSaltSource;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 
 /**
  * @author: Samir

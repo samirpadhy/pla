@@ -86,15 +86,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new ShaPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new AuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new AuthenticationFailureHandler();
-    }
 
     @Bean
     public SystemWideSaltSource saltSource() {

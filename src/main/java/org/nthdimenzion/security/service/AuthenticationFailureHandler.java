@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import java.io.IOException;
  * @author: Samir
  * @since 1.0 23/01/2015
  */
+@Component
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private enum AuthenticationFailureErrorCodes {
