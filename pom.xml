@@ -24,11 +24,16 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>org.nthdimenzion.application.Application</start-class>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <axon.version>2.4</axon.version>
     </properties>
 
     <dependencies>
+	<dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>2.2.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
