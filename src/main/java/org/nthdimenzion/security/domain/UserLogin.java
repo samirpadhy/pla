@@ -8,12 +8,11 @@ package org.nthdimenzion.security.domain;
 
 import com.google.common.collect.Sets;
 import lombok.*;
+import org.joda.time.LocalDate;
 import org.nthdimenzion.common.crud.ICrudEntity;
 import org.nthdimenzion.utils.UtilValidator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 /**
