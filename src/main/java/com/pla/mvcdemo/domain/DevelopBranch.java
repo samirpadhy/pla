@@ -7,6 +7,10 @@ package com.pla.mvcdemo.domain;
 public class DevelopBranch {
 
 
+    public DevelopBranch(){
+        System.out.println("Added Constructor");
+    }
+
     public void developBranch(){
 
     }
