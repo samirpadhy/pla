@@ -17,5 +17,7 @@ public class GitTest {
 
     public void test2(){
         System.out.println("Test2 Method From GIT");
+        System.out.println("Test Method From GIT");
     }
 }
+
