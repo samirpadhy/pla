@@ -8,6 +8,14 @@ public class GitTest {
 
 
     public void test(){
+        System.out.println("Test Method From GIT");
+    }
 
+    public void test1(){
+        System.out.println("Test1 Method From GIT");
+    }
+
+    public void test2(){
+        System.out.println("Test2 Method From GIT");
     }
 }
