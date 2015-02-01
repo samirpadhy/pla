@@ -22,7 +22,7 @@ public class ApplicationTests {
 
     @Test
     public void contextLoads() {
-        Assert.assertNull(authenticationEntryPoint);
+        Assert.assertNotNull(authenticationEntryPoint);
     }
 
 }
