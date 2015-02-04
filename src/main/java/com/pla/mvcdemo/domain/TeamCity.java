@@ -5,4 +5,8 @@ package com.pla.mvcdemo.domain;
  * @since 1.0 04/02/2015
  */
 public class TeamCity {
+
+    public TeamCity(){
+
+    }
 }
