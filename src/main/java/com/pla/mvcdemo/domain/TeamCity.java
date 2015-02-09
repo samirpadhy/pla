@@ -7,6 +7,6 @@ package com.pla.mvcdemo.domain;
 public class TeamCity {
 
     public TeamCity(){
-
+        System.out.println("S");
     }
 }
