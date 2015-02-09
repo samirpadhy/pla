@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/demo")
 public class TestController {
 
+    private ViewController viewController;
+
     @Autowired
     private TestService testService;
 
