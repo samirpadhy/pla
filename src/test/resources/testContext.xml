@@ -10,14 +10,36 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.mockito.org/spring/mockito classpath:spring/mockito.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.mockito.org/spring/mockito classpath:spring/mockito.xsd
+       http://www.mockito.org/spring/mockito">
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" lazy-init="true"/>
 
-    <context:component-scan base-package="org.nthdimenzion"/>
+    <context:component-scan base-package="org.nthdimenzion">
+    </context:component-scan>
     <context:component-scan base-package="com.pla"/>
 
     <mvc:annotation-driven validator="validator"/>
 
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="org.h2.Driver" />
+        <property name="jdbcUrl" value="jdbc:h2:mem;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;" />
+        <property name="maxConnectionsPerPartition" value="50"/>
+        <property name="minConnectionsPerPartition" value="10"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="statementsCacheSize" value="20"/>
+        <property name="disableJMX" value="true"/>
+    </bean>
 
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:scripts/pla.sql" />
+    </jdbc:initialize-database>
+    <bean id="flyway" class="org.flywaydb.core.Flyway">
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="locations">
+            <array>
+                <value>db/migration</value>
+            </array>
+        </property>-->
+    </bean>
 </beans>

@@ -6,12 +6,10 @@
 
 package org.nthdimenzion.application;
 
-import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.sql.DataSource;
@@ -32,11 +30,11 @@ public class Application {
     @Autowired
     private DataSource dataSource;
 
-    @Bean(initMethod = "migrate",name = "flyway")
+    /*@Bean(initMethod = "migrate",name = "flyway")
     public Flyway flyway(){
         Flyway flyway = new Flyway();
         flyway.setInitOnMigrate(true);
         flyway.setDataSource(dataSource);
         return flyway;
-    }
+    }*/
 }
